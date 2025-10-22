@@ -1,6 +1,7 @@
 class Recipe(object):
     all_ingredients = []
     def __init__(self, name, ingredients, cooking_time):
+        """Initialize the Recipe object."""
         self.name = name
         self.ingredients = ingredients
         self.cooking_time = cooking_time
@@ -8,6 +9,7 @@ class Recipe(object):
         self.difficulty = self.calculate_difficulty() 
 
     def calculate_difficulty(self):
+        """Calculate and return the difficulty level of the recipe."""
         if self.cooking_time < 10 and len(self.ingredients) < 4:
             self.difficulty = "Easy"
         elif self.cooking_time < 10 and len(self.ingredients) >= 4:
@@ -19,25 +21,31 @@ class Recipe(object):
         return self.difficulty
         
     def get_difficulty(self):
+        """Return the difficulty level of the recipe."""
         if self.difficulty is None:
             self.calculate_difficulty()
         return self.difficulty
             
     def get_name(self):
+        """Return the name of the recipe."""
         return self.name
     
     def set_name(self, new_name):
+        """Set a new name for the recipe."""
         self.name = new_name
 
     def get_cooking_time(self):
+        """Return the cooking time of the recipe."""
         return self.cooking_time
     
     def set_cooking_time(self, new_cooking_time):
+        """Set a new cooking time for the recipe."""
         self.cooking_time = new_cooking_time
         #update difficulty level on change
         self.difficulty = self.calculate_difficulty()
 
     def add_ingredients(self, *new_ingredients):
+        """Add new ingredients to the recipe."""
         for ingredient in new_ingredients:
             if ingredient not in self.ingredients:
                 self.ingredients.append(ingredient)
@@ -46,20 +54,24 @@ class Recipe(object):
         self.update_all_ingredients(new_ingredients)
 
     def get_ingredients(self):
+        """Return the list of ingredients for the recipe."""
         return self.ingredients
     
     def search_ingredient(self, ingredient):
+        """Check if the recipe contains a specific ingredient."""
         for ingredient_item in self.ingredients:
             if ingredient_item.lower() == ingredient.lower():
                 return True
         return False
     
     def update_all_ingredients(self, new_ingredients):
+        """Update the class-level list of all ingredients."""
         for ingredient in new_ingredients:
             if ingredient not in Recipe.all_ingredients:
                 Recipe.all_ingredients.append(ingredient)
 
     def recipe_search(self, data, search_term):
+        """Search for recipes containing a specific ingredient."""
         found = False
         for recipe in data:
             if recipe.search_ingredient(search_term):
@@ -69,6 +81,7 @@ class Recipe(object):
             print("No recipes found with that ingredient.")
 
     def __str__(self):
+        """Return a string representation of the recipe."""
         return f"Recipe: {self.name}, Cooking Time: {self.cooking_time} minutes, Ingredients: {', '.join(self.ingredients)}, Difficulty: {self.difficulty}"
 
 tea = Recipe("Tea", ["Tea leaves", "Sugar", "Water"], 5)
