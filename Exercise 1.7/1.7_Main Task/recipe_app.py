@@ -16,12 +16,13 @@ class Recipe(Base):
 
     def __repr__(self):
         """Return a short string representation of the recipe."""
-        return "<Recipe ID: " + str(self.id) + " - " + self.name.title() + " - Difficulty: " + self.difficulty + ">"
+        return f"<Recipe ID: {self.id} - {self.name.title()} - Difficulty: {self.difficulty}>"
     
     def __str__(self):
         """Return a formatted string representation of the recipe details."""
         border = "=" * 45
-        ingredients_formatted = "\n\t- " + "\n\t- ".join(self.ingredients.split(","))
+        ingredients_list = [i.strip().title() for i in self.ingredients.split(",")]
+        ingredients_formatted = "\n\t- " + "\n\t- ".join(ingredients_list)
         label_width = 15
         return (
             f"🍽️\u00A0Recipe Details\u00A0🍽️\n"
@@ -269,7 +270,7 @@ def edit_recipe(session):
                 else:
                     # Normalize ingredients formatting
                     ingredients_list = [
-                        ingredient.strip().title() 
+                        ingredient.strip().lower() 
                         for ingredient in new_value.split(",") 
                         if ingredient.strip()
                     ]
@@ -294,6 +295,7 @@ def edit_recipe(session):
 def delete_recipe(session):
     """Delete a recipe from the database"""
     if session.query(Recipe).count() == 0:
+    # Check if the DB is empty
         print("No recipes found in the database.")
         return None
 
